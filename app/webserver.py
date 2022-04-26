@@ -1,8 +1,16 @@
-# Runs a webserver on the specified port which returns hello world
+# Runs a webserver on the specified port and returns hello riselab
 
 import argparse
-from http import HTTPStatus
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+import socket
+
+from flask import Flask
+
+app = Flask(__name__)
+hostname = socket.gethostname()
+
+@app.route('/')
+def index():
+    return f'Hello RISELab! My hostname is {hostname}'
 
 
 def parse_args():
@@ -12,19 +20,10 @@ def parse_args():
     return parser.parse_args()
 
 
-class HelloWorldHandler(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(HTTPStatus.OK)
-        self.end_headers()
-        self.wfile.write(b'Hello world')
-
-
 def main():
     args = parse_args()
-    print(f'Running webserver on port {args.port}')
-    server_address = ('localhost', args.port)
-    httpd = HTTPServer(server_address, HelloWorldHandler)
-    httpd.serve_forever()
+    print(f'I am {hostname}, Running webserver on port {args.port}')
+    app.run(host='0.0.0.0', port=args.port)
 
 
 if __name__ == '__main__':
