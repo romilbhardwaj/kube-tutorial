@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM continuumio/miniconda3:latest
 
 RUN echo "Welcome to your first container build!"
 

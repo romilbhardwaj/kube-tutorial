@@ -1,0 +1,27 @@
+# Example deployment YAML
+# First we define the Kubernetes API and the object type
+apiVersion: apps/v1
+kind: Deployment
+
+# Define the metadata for the deployment object, optional
+metadata:
+  name: myclient-deployment
+  labels:
+    rise_deployment: client
+    is_k8s_easy: maybe
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myclient
+  template:
+    metadata:
+      labels:
+        app: myclient
+    spec:
+      containers:
+      - name: myapp
+        image: romilb/myapp:latest
+        # Override the command that will be executed in the container
+        command: ["sleep", "365d"]

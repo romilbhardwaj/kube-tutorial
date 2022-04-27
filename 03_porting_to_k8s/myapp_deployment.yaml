@@ -1,0 +1,39 @@
+# Example deployment YAML
+# First we define the Kubernetes API and the object type
+apiVersion: apps/v1
+kind: Deployment
+
+# Define the metadata for the deployment object, optional
+metadata:
+  name: myapp-deployment
+  labels:
+    rise_deployment: webserver
+    is_k8s_easy: maybe
+
+# Define the spec of the deployment - this is the meat
+spec:
+  # Number of replica pods that the deployment will try to maintain
+  replicas: 1
+
+  # The selector condition that defines the pods that will be
+  # managed by the deployment.
+  selector:
+    matchLabels:
+      app: myapp
+
+  # Template for the pods that will be created as a part of this deployment
+  template:
+    # Metadata for each pod
+    metadata:
+      labels:
+        app: myapp  # This is the same as the selector above
+
+    # Specification of the container(s) that will be run in each pod
+    spec:
+      containers:
+      - name: myapp
+        # The image that will be used - make sure it's a public image
+        # (or configure your k8s to work with your image registry)
+        image: romilb/myapp:latest
+        # Optional - override the command that will be executed in the container
+        # command: ["python", "/app/webserver.py", "8000"]
