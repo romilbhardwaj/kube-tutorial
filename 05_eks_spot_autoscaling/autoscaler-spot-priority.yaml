@@ -1,0 +1,14 @@
+
+---
+# Config map to prioritize spot instances over on-demand instances for autoscaling
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-autoscaler-priority-expander
+  namespace: kube-system
+data:
+  priorities: |-
+    20:
+      - eks-spot.*
+    10:
+      - eks-on-demand.*
