@@ -1,7 +1,7 @@
 # Kubernetes for Grad Students
 Kubernetes Tutorial for the PS2 group meetings at UC Berkeley.
 
-Slides: TBA
+Slides can be found [here](https://docs.google.com/presentation/d/16CEIbD7eISnzQGbtKfxGvRldutecqiGTwAi3VffOU5w/edit?usp=sharing).
 
 ![Dilbert on k8s](https://i.imgur.com/uOcM31v.jpg)
 
