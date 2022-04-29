@@ -1,4 +1,4 @@
-# Setting up Kubernetes
+# 02 - Setting up Kubernetes
 
 We will use Kind (Kubernetes in Docker) to set up a Kubernetes cluster.
 
@@ -44,3 +44,12 @@ We will use Kind (Kubernetes in Docker) to set up a Kubernetes cluster.
    service/dashboard-metrics-scraper created
    deployment.apps/dashboard-metrics-scraper created
    ```
+   
+4. To access the dashboard, run `kubectl proxy`, and then open
+   ```console
+   http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/deployment?namespace=_all
+   ```
+   
+   Press `skip` on the webpage to login.
+
+   ![KubernetesDashboard](https://i.imgur.com/Ta766ZR.png)

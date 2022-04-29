@@ -9,12 +9,10 @@ if [ ! "$(docker ps -q -f name=k8stutorial)" ]; then
   fi
   # run the container
   docker run -d  \
+         --net host \
          -v /var/run/docker.sock:/var/run/docker.sock \
          --name k8stutorial \
-         -p 6443:6443 \
-         -p 8001:8001 \
-         -p 10000:10000 \
-         romilb/k8stutorial
+         romilb/k8stutorial:latest
 fi
 
 docker exec -it k8stutorial /bin/bash
