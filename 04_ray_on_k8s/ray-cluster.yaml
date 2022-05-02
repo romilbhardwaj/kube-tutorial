@@ -20,6 +20,32 @@ spec:
   selector:
     component: ray-head
 ---
+# Ray external connection service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ray-head-external
+spec:
+  type: NodePort
+  ports:
+  - name: client
+    protocol: TCP
+    port: 10001
+    targetPort: 10001
+    nodePort: 30001
+  - name: dashboard
+    protocol: TCP
+    port: 8265
+    targetPort: 8265
+    nodePort: 32001
+  - name: redis
+    protocol: TCP
+    port: 6379
+    targetPort: 6379
+    nodePort: 32000
+  selector:
+    component: ray-head
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,11 +77,11 @@ spec:
           medium: Memory
       containers:
         - name: ray-head
-          image: public.ecr.aws/cilantro/cray-workloads:latest
+          image: rayproject/ray
           imagePullPolicy: Always
           command: [ "/bin/bash", "-c", "--" ]
           args:
-            - "ray start --head --port=6379 --redis-shard-ports=6380,6381 --num-cpus=0 --object-manager-port=12345 --node-manager-port=12346 --dashboard-host=0.0.0.0 --block"
+            - "ray start --head --port=6379 --redis-shard-ports=6380,6381 --num-cpus=0 --object-manager-port=22345 --node-manager-port=22346 --dashboard-host=0.0.0.0 --block"
           ports:
             - containerPort: 6379 # Redis port
             - containerPort: 10001 # Used by Ray Client
@@ -106,11 +132,11 @@ spec:
           medium: Memory
       containers:
       - name: ray-worker
-        image: public.ecr.aws/cilantro/cray-workloads:latest
+        image: rayproject/ray
         imagePullPolicy: Always
         command: ["/bin/bash", "-c", "--"]
         args:
-          - "ray start --num-cpus=$MY_CPU_REQUEST --address=$RAY_HEAD_SERVICE_HOST:$RAY_HEAD_SERVICE_PORT_REDIS --object-manager-port=12345 --node-manager-port=12346 --block"
+          - "ray start --num-cpus=$MY_CPU_REQUEST --address=$RAY_HEAD_SERVICE_HOST:$RAY_HEAD_SERVICE_PORT_REDIS --object-manager-port=22345 --node-manager-port=22346 --block"
         # This volume allocates shared memory for Ray to use for its plasma
         # object store. If you do not provide this, Ray will fall back to
         # /tmp which cause slowdowns if is not a shared memory volume.
