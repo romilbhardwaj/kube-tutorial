@@ -10,7 +10,7 @@ hostname = socket.gethostname()
 
 @app.route('/')
 def index():
-    return f'Hello RISELab! My hostname is {hostname}'
+    return f'Hello Sky Computing Lab! My hostname is {hostname}'
 
 
 def parse_args():
