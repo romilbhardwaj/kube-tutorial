@@ -1,4 +1,4 @@
-# Runs a webserver on the specified port and returns hello riselab
+# Runs a webserver on the specified port and returns hello world
 
 import argparse
 import socket
